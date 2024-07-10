@@ -1,0 +1,1659 @@
+openapi: 3.0.0
+info:
+  title: ASHER2.0
+  description: >-
+    This is Asher's API. It allows users to manage tasks,
+    register and authenticate users, and retrieve support information. The API
+    is built using Node.js, Express, and Prisma, and it communicates with a
+    PostgreSQL database to store and retrieve data.
+
+
+    The {{host}} is currently [[http://localhost:4321]]
+  version: 1.0.0
+servers:
+  - url: http://{{host}}
+  - url: https://firebasestorage.googleapis.com
+  - url: http://localhost:8000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Emails
+  - name: Auth
+    description: >-
+      This section details the process by which users gain authorization to
+      access API resources within the asher support system. It encompasses the
+      essential steps of user registration, login with OTP verification, and JWT
+      token issuance.
+
+
+      **1\. User Registration**
+
+
+      - **Endpoint:** `POST /api/auth/register`
+          
+      - **Request Body:**
+          
+          - `name` (string): User's chosen username or identifier.
+              
+          - `password` (string): User's password for authentication.
+              
+          - `email` (string): User's email address for OTP verification and communication.
+              
+      - **Response:**
+          
+          - Upon successful registration, the API returns a 201 Created status code along with a confirmation message or a success object containing user details.
+              
+          - Note: Only Admin can register a user
+              
+
+      **Additional Step: Verifying OTP**
+
+
+      - The user receives an OTP (One-Time Password) via email.
+          
+      - The user submits the OTP along with a request to verify it.
+          
+      - **Endpoint:** `POST /api/auth/verify`
+          
+      - **Request Body:**
+          
+          - `otp` (string): The received OTP.
+              
+          - `email` (string): The user email.
+              
+      - **Response:**
+          
+          - If the OTP is valid, a 200 OK status code is returned.
+              
+
+      **2\. User Login after OTP Verification**
+
+
+      - **Endpoint:** `POST /api/auth/login`
+          
+      - **Request Body:**
+          
+          - `email` (string): User's registered username or identifier.
+              
+          - `password` (string): User's password for authentication.
+              
+      - **Response:**
+          
+          - If the username and password combination is valid, a 200 OK status code is returned, along with a message indicating the OTP has been sent to the user's email address.
+              
+          - For other errors (e.g., network issues, system errors), a 500 Internal Server Error status code is returned with a generic error message.
+              
+
+      **3\. JWT Token Usage**
+
+
+      - The received JWT token should be included in the authorization header of
+      subsequent API requests to access protected resources.
+          
+      - The format of the authorization header typically follows:
+      `Authorization: Bearer` .
+          
+      - The API server verifies the validity of the JWT token before granting
+      access to the requested resource.
+          
+      - If the token is invalid or expired, a 401 Unauthorized status code is
+      returned, requiring the user to re-authenticate.
+paths:
+  /api/emails/:
+    post:
+      tags:
+        - Emails
+      summary: Create Email
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: string
+                  format: binary
+                recieverEmail:
+                  type: string
+                  example: admin123@gmail.com
+                subject:
+                  type: string
+                  example: Cancas Housing Estate Moves
+                body:
+                  type: string
+                  example: >-
+                    You can find the doc attached We need to update the
+                    markEmailAsRead and sendDraftEmail methods to work with our
+                    new email model.
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '289'
+            ETag:
+              schema:
+                type: string
+                example: W/"121-zI4IqoFMJXlUda4l9JsQ78KAQcQ"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 01:46:23 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Create Email
+                  value:
+                    id: clyf6ild70001vdgkgmsimgsi
+                    senderEmail: aliyutimileyin2340@gmail.com
+                    recieverEmail: admin123@gmail.com
+                    subject: Mayor One
+                    body: Awareness for the email accomplichment
+                    attachment: null
+                    isRead: false
+                    isDraft: false
+                    isSent: false
+                    createdAt: '2024-07-10T01:46:23.266Z'
+                example-1:
+                  summary: Create Email
+                  value:
+                    id: clyf6ild70001vdgkgmsimgsi
+                    senderEmail: aliyutimileyin2340@gmail.com
+                    recieverEmail: admin123@gmail.com
+                    subject: Mayor One
+                    body: Awareness for the email accomplichment
+                    attachment: null
+                    isRead: false
+                    isDraft: false
+                    isSent: false
+                    createdAt: '2024-07-10T01:46:23.266Z'
+                example-2:
+                  summary: Create Email With Attachment
+                  value:
+                    id: clyfdgx2f0001udtxks8vxpk7
+                    senderEmail: aliyutimileyin2340@gmail.com
+                    recieverEmail: admin123@gmail.com
+                    subject: Cancas Housing Estate Moves
+                    body: >-
+                      You can find the doc attached We need to update the
+                      markEmailAsRead and sendDraftEmail methods to work with
+                      our new email model.
+                    attachment:
+                      - >-
+                        https://res.cloudinary.com/carter827/raw/upload/v1720560085/xlpqt4h6wc4y1uv1vbqg
+                    isReadBySender: true
+                    isReadByReciever: false
+                    isDraft: true
+                    isSent: false
+                    createdAt: '2024-07-10T05:01:02.439Z'
+  /api/emails/user/{email}/unread:
+    get:
+      tags:
+        - Emails
+      summary: Unread Emails
+      parameters:
+        - name: email
+          in: path
+          schema:
+            type: string
+          required: true
+          example: admin123@gmail.com
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1486'
+            ETag:
+              schema:
+                type: string
+                example: W/"5ce-u4OwNpLq7Ea3KzY/G2LdbLitAGA"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 01:53:44 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyf6ild70001vdgkgmsimgsi
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:46:23.266Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                - id: '2'
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:18:59.102Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                - id: '1'
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:18:13.114Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+  /api/emails/user/{email}/sent:
+    get:
+      tags:
+        - Emails
+      summary: Sent Emails
+      parameters:
+        - name: email
+          in: path
+          schema:
+            type: string
+          required: true
+          example: aliyutimileyin2340@gmail.com
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1486'
+            ETag:
+              schema:
+                type: string
+                example: W/"5ce-u4OwNpLq7Ea3KzY/G2LdbLitAGA"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 01:49:28 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyf6ild70001vdgkgmsimgsi
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:46:23.266Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                - id: '2'
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:18:59.102Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                - id: '1'
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin123@gmail.com
+                  subject: Mayor One
+                  body: Awareness for the email accomplichment
+                  attachment: null
+                  isRead: false
+                  isDraft: false
+                  isSent: false
+                  createdAt: '2024-07-10T01:18:13.114Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+  /api/emails/user/{email}/inbox:
+    get:
+      tags:
+        - Emails
+      summary: Get Emails
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: email
+          in: path
+          schema:
+            type: string
+          required: true
+          example: admin123@gmail.com
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '30'
+            ETag:
+              schema:
+                type: string
+                example: W/"1e-SIEpoZZR2uD0Lb8pqZERube1cDs"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 01:07:31 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: No Emails to Get Emails
+                  value:
+                    message: 'No emails found '
+                example-1:
+                  summary: Get Emails
+                  value:
+                    - id: clyf6ild70001vdgkgmsimgsi
+                      senderEmail: aliyutimileyin2340@gmail.com
+                      recieverEmail: admin123@gmail.com
+                      subject: Mayor One
+                      body: Awareness for the email accomplichment
+                      attachment: null
+                      isRead: false
+                      isDraft: false
+                      isSent: false
+                      createdAt: '2024-07-10T01:46:23.266Z'
+                      sender:
+                        email: aliyutimileyin2340@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+                      reciver:
+                        email: admin123@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+                    - id: '2'
+                      senderEmail: aliyutimileyin2340@gmail.com
+                      recieverEmail: admin123@gmail.com
+                      subject: Mayor One
+                      body: Awareness for the email accomplichment
+                      attachment: null
+                      isRead: false
+                      isDraft: false
+                      isSent: false
+                      createdAt: '2024-07-10T01:18:59.102Z'
+                      sender:
+                        email: aliyutimileyin2340@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+                      reciver:
+                        email: admin123@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+                    - id: '1'
+                      senderEmail: aliyutimileyin2340@gmail.com
+                      recieverEmail: admin123@gmail.com
+                      subject: Mayor One
+                      body: Awareness for the email accomplichment
+                      attachment: null
+                      isRead: false
+                      isDraft: false
+                      isSent: false
+                      createdAt: '2024-07-10T01:18:13.114Z'
+                      sender:
+                        email: aliyutimileyin2340@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+                      reciver:
+                        email: admin123@gmail.com
+                        role:
+                          - WEBUSER
+                        profile:
+                          fullname: null
+                          profileUrl: null
+  /api/emails/user/{email}/drafts:
+    get:
+      tags:
+        - Emails
+      summary: Get Draft
+      parameters:
+        - name: email
+          in: path
+          schema:
+            type: string
+          required: true
+          example: aliyutimileyin2340@gmail.com
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '509'
+            ETag:
+              schema:
+                type: string
+                example: W/"1fd-/otaGOgHFCMWLFeVhfdJgIqZCgE"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 01:52:29 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyf6pbpl0003vdgk1jfurjxx
+                  senderEmail: aliyutimileyin2340@gmail.com
+                  recieverEmail: admin@admin@gmail.com
+                  subject: Cansouler e
+                  body: Application for Rent Reciept
+                  attachment: null
+                  isRead: false
+                  isDraft: true
+                  isSent: false
+                  createdAt: '2024-07-10T01:51:37.353Z'
+                  sender:
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+                  reciver:
+                    email: admin@admin@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      fullname: null
+                      profileUrl: null
+  /api/emails/{emailId}/read:
+    patch:
+      tags:
+        - Emails
+      summary: Mark Email as Read
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      parameters:
+        - name: emailId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyf6ild70001vdgkgmsimgsi
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin123@gmail.com
+                password: admin123
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '297'
+            ETag:
+              schema:
+                type: string
+                example: W/"129-/e7muHecJIHfFnxeDjcgvqmTGvY"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 00:23:55 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: >-
+                  User registered successfully, check your email for
+                  verification code
+                user:
+                  id: '2'
+                  email: aliyutimileyin2340@gmail.com
+                  password: $2b$10$vgqi07DYuj/C1TemS1vckuPca0kxUG1uwyJvUuitKQg3Dklvo8ReS
+                  isVerified: false
+                  createdAt: {}
+                  updatedAt: {}
+                  role:
+                    - WEBUSER
+                  profileId: '2'
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: aliyutimileyin2340@gmail.com
+                password: Asdfvbnm1@
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '402'
+            ETag:
+              schema:
+                type: string
+                example: W/"192-0iLL5s5J8wLoVXLacMzWV/bDtnI"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 00:26:38 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: User logged in successfully
+                token: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IldFQlVTRVIiLCJlbWFpbCI6ImFsaXl1dGltaWxleWluMjM0MEBnbWFpbC5jb20iLCJpYXQiOjE3MjA1NzExOTgsImV4cCI6MTcyMDU3NDc5OH0.KkKww_QIg24Oh7_onfWLc-ntQ5-XegHhvCduHHkPCuw
+                userDetails:
+                  email: aliyutimileyin2340@gmail.com
+                  isVerified: true
+                  createdAt: {}
+                  updatedAt: {}
+                  role:
+                    - WEBUSER
+                  profileId: '2'
+  /api/user/me:
+    get:
+      tags:
+        - Auth
+      summary: Get Current User
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin123@gmail.com
+                token: ts3znomi85lyf5bk81
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '180'
+            ETag:
+              schema:
+                type: string
+                example: W/"b4-MAuSLqAdGVQBJDxxNTbJaw5IE5M"
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jul 2024 00:19:05 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: User verified successfully
+                user:
+                  id: '1'
+                  email: aliyutimileyin2340@gmail.com
+                  isVerified: true
+                  createdAt: {}
+                  updatedAt: {}
+                  role:
+                    - WEBUSER
+                  profileId: '1'
+    get:
+      tags:
+        - Auth
+      summary: Update Profile
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+
+
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Aliyu Barnie
+                email: aliyutimileyin2340@gmail.com
+                password: secret
+                role: manager
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: famin@asher.com
+                password: secretPass
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: famin@asher.com
+                otp: '111111'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/task:
+    get:
+      tags:
+        - Task
+      summary: Get All Tasks
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: desc
+        - name: filterBy
+          in: query
+          schema:
+            type: string
+          example: inProgress
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/task/{taskId}:
+    get:
+      tags:
+        - Task
+      summary: Get Single Task
+      parameters:
+        - name: taskId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Task
+      summary: Delete Task
+      parameters:
+        - name: taskId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/task/:
+    post:
+      tags:
+        - Task
+      summary: Create Task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                task_name: Test  6
+                task_description: This is ask for user 63.
+                start_date: '2024-05-27'
+                assign_to_id: 1
+                status: inProgress
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Task
+      summary: Update all Task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                taskId: 2
+                task_name: Test Task 2 Updated
+                task_description: Updating tho is a test task for user 2 in which i updated.
+                due_date: '2024-10-20T23:02:00.000Z'
+                assign_to_id: 2
+                status: open
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/:
+    get:
+      tags:
+        - User
+      summary: Get Users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/activate/{userId}:
+    patch:
+      tags:
+        - User
+      summary: Activate User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                activate: true
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/role:
+    patch:
+      tags:
+        - User
+      summary: Update User role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role: admin
+                userId: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/deactivate/{userId}:
+    patch:
+      tags:
+        - User
+      summary: Deactivate User
+      requestBody:
+        content: {}
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/members/tenants:
+    get:
+      tags:
+        - Memebrs
+      summary: Get All tenants
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/members/landlords:
+    get:
+      tags:
+        - Memebrs
+      summary: Get All Landlords
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/chats/create:
+    post:
+      tags:
+        - Chats
+      summary: Create Chat Audio FIles
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                senderId:
+                  type: integer
+                  example: '3'
+                receiverId:
+                  type: integer
+                  example: '1'
+                files:
+                  type: string
+                  format: binary
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/chats/:
+    get:
+      tags:
+        - Chats
+      summary: Get Chat
+      parameters:
+        - name: senderId
+          in: query
+          schema:
+            type: integer
+          example: '3'
+        - name: receiverId
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /v0/b/asher-support-424117.appspot.com/o/chat-files/1_2/40e7a15d-5709-4e7c-bffe-9e67e1ac8529.png:
+    get:
+      tags:
+        - Chats
+      summary: Returned file
+      description: testing returned file in chat
+      parameters:
+        - name: alt
+          in: query
+          schema:
+            type: string
+          example: media
+        - name: token
+          in: query
+          schema:
+            type: string
+          example: a62818e0-2b93-4cd6-9616-34189a9b8246
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tickets/all:
+    get:
+      tags:
+        - Ticket Activity
+      summary: Get All tickets
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tickets/{ticketId}:
+    get:
+      tags:
+        - Ticket Activity
+      summary: Get Single Ticket
+      parameters:
+        - name: ticketId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '22'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tickets/ticket-activity/{ticketId}:
+    get:
+      tags:
+        - Ticket Activity
+      summary: Get All ticket Activity
+      parameters:
+        - name: ticketId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tickets/ticket-activity/create:
+    post:
+      tags:
+        - Ticket Activity
+      summary: Create Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                ticketId: 22
+                activity: Picked up the issue
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tickets/ticket-activity/update/{ticketId}:
+    patch:
+      tags:
+        - Ticket Activity
+      summary: Update Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                activity: Requested for doc files from tenant
+      parameters:
+        - name: ticketId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /checkuser:
+    post:
+      tags:
+        - AsherMain > Tickets
+      summary: Check User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: person6@example.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /ticket:
+    post:
+      tags:
+        - AsherMain > Tickets
+      summary: Create tickets
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment:
+                  type: string
+                  format: binary
+                authid:
+                  type: string
+                  example: $2b$10$CeQ1.Oebq5ybar7psBFPI.SCx7RGRDvPX.Jy.bb1n368At8Crf4BW
+                userid:
+                  type: integer
+                  example: '1'
+                title:
+                  type: string
+                  example: New car has helped us
+                description:
+                  type: string
+                  example: >-
+                    The property at house 309 room 123 behind the newly occupied
+                    tenant has always had new car hit the wall which hasnt been
+                    fixed
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - AsherMain > Tickets
+      summary: Edit Ticket
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /ticket/{ticketId}:
+    post:
+      tags:
+        - AsherMain > Tickets
+      summary: Delete Ticket
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment:
+                  type: string
+                  format: binary
+                authid:
+                  type: string
+                  example: $2b$10$CeQ1.Oebq5ybar7psBFPI.SCx7RGRDvPX.Jy.bb1n368At8Crf4BW
+                userid:
+                  type: integer
+                  example: '1'
+                title:
+                  type: string
+                  example: The network has been fluntuating
+                description:
+                  type: string
+                  example: >-
+                    The property at house 309 room 123 behind the newly occupied
+                    tenant has always had network issues which hasnt been fixed
+      parameters:
+        - name: ticketId
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '20'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notification/all:
+    get:
+      tags:
+        - Notification
+      summary: get All notification
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notification/{id}/read:
+    patch:
+      tags:
+        - Notification
+      summary: mark notification as read
+      requestBody:
+        content: {}
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notification/read-all:
+    patch:
+      tags:
+        - Notification
+      summary: mark all notification as read
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/notification/{eventId}:
+    get:
+      tags:
+        - Notification
+      summary: get notification detail
+      parameters:
+        - name: eventId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: T-22
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/dashboard/:
+    get:
+      tags:
+        - Dashboard
+      summary: Get Dashboard data
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Security-Policy:
+              schema:
+                type: string
+                example: >-
+                  default-src 'self';base-uri 'self';font-src 'self' https:
+                  data:;form-action 'self';frame-ancestors 'self';img-src 'self'
+                  data:;object-src 'none';script-src 'self';script-src-attr
+                  'none';style-src 'self' https:
+                  'unsafe-inline';upgrade-insecure-requests
+            Cross-Origin-Opener-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Cross-Origin-Resource-Policy:
+              schema:
+                type: string
+                example: same-origin
+            Origin-Agent-Cluster:
+              schema:
+                type: string
+                example: '?1'
+            Referrer-Policy:
+              schema:
+                type: string
+                example: no-referrer
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=15552000; includeSubDomains
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            X-DNS-Prefetch-Control:
+              schema:
+                type: string
+                example: 'off'
+            X-Download-Options:
+              schema:
+                type: string
+                example: noopen
+            X-Frame-Options:
+              schema:
+                type: string
+                example: SAMEORIGIN
+            X-Permitted-Cross-Domain-Policies:
+              schema:
+                type: string
+                example: none
+            X-XSS-Protection:
+              schema:
+                type: integer
+                example: '0'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '2289'
+            ETag:
+              schema:
+                type: string
+                example: W/"8f1-J0+ce/tjJ12jxRQSDdW4xCyKPQE"
+            Date:
+              schema:
+                type: string
+                example: Sat, 01 Jun 2024 09:51:27 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                users:
+                  landlords: '2'
+                  tenants: '19'
+                  vendors: '0'
+                status:
+                  inProgress: 6
+                  open: 1
+                  completed: 1
+                  deleted: 1
+                assignedTasks:
+                  assigned: 6
+                  unassigned: 0
+                tasks:
+                  - id: 11
+                    task_name: Test 9
+                    task_description: Test 9 desc
+                    start_date: '2024-05-29T00:00:00.000Z'
+                    due_date: '2024-06-05T00:00:00.000Z'
+                    assign_to_id: 3
+                    status: completed
+                  - id: 9
+                    task_name: Task 7
+                    task_description: Test task 7
+                    start_date: '2024-05-29T00:00:00.000Z'
+                    due_date: '2024-06-01T00:00:00.000Z'
+                    assign_to_id: 1
+                    status: inProgress
+                  - id: 10
+                    task_name: Test 8
+                    task_description: Test 9 desc
+                    start_date: '2024-05-28T00:00:00.000Z'
+                    due_date: '2024-05-28T00:00:00.000Z'
+                    assign_to_id: 1
+                    status: open
+                  - id: 7
+                    task_name: Test  4
+                    task_description: This is ask for user 43.
+                    start_date: '2024-05-27T15:25:56.784Z'
+                    due_date: null
+                    assign_to_id: 1
+                    status: inProgress
+                  - id: 8
+                    task_name: Test  6
+                    task_description: This is ask for user 63.
+                    start_date: '2024-05-27T00:00:00.000Z'
+                    due_date: null
+                    assign_to_id: 1
+                    status: inProgress
+                  - id: 6
+                    task_name: Test  4
+                    task_description: This is ask for user 43.
+                    start_date: '2024-05-20T20:55:25.187Z'
+                    due_date: null
+                    assign_to_id: 1
+                    status: inProgress
+                tickets:
+                  - id: T-22
+                    title: New car has helped us
+                    status: >-
+                      unassigned                                                                                                                                                                                                                                                     
+                    dateCreated: '2024-05-28T01:34:02.442Z'
+                    user:
+                      email: cartre@gmail.com
+                      name: Carter
+                      profileImage: >-
+                        https://res.cloudinary.com/carter827/image/upload/v1707581012/Asher/blank-profile-picture-png.png
+                  - id: T-21
+                    title: The network has been fluntuating
+                    status: >-
+                      unassigned                                                                                                                                                                                                                                                     
+                    dateCreated: '2024-05-28T01:17:07.738Z'
+                    user:
+                      email: cartre@gmail.com
+                      name: Carter
+                      profileImage: >-
+                        https://res.cloudinary.com/carter827/image/upload/v1707581012/Asher/blank-profile-picture-png.png
+  /api/files/:
+    get:
+      tags:
+        - Files
+      summary: Get Files
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
