@@ -1,10 +1,6 @@
 openapi: 3.0.0
 info:
   title: ASHER2.0
-  description: This is Asher's API. It allows users to manage tasks,
-    register and authenticate users, and retrieve support information. The API
-    is built using Node.js, Express, and Prisma, and it communicates with a
-    PostgreSQL database to store and retrieve data.
   version: 1.0.0
 servers:
   - url: http://{{host}}
@@ -97,6 +93,11 @@ tags:
           
       - If the token is invalid or expired, a 401 Unauthorized status code is
       returned, requiring the user to re-authenticate.
+  - name: Property
+  - name: Tenants
+  - name: Tenants > Community
+  - name: Tenants > Community Post
+  - name: Tenants > Community Post > Likes
 paths:
   /api/emails/:
     post:
@@ -750,8 +751,8 @@ paths:
             schema:
               type: object
               example:
-                email: aliyutimileyin2340@gmail.com
-                password: Asdfvbnm1@
+                email: admin123@gmail.com
+                password: admin123
       responses:
         '200':
           description: OK
@@ -889,4 +890,1178 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/properties/property/:
+    post:
+      tags:
+        - Property
+      summary: create-property
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Calorei Apartments
+                description: Valley at greeen door.
+                propertysize: 5000
+                landlordId: '1'
+                yearBuilt: '2020-05-20T00:00:00.000Z'
+                city: New York
+                state: NY
+                country: USA
+                zipcode: '10001'
+                location: 123 Main St, New York, NY 10001
+                images:
+                  - https://example.com/image1.jpg
+                  - https://example.com/image2.jpg
+                videourl:
+                  - https://example.com/video1.mp4
+                  - https://example.com/video2.mp4
+                amenities:
+                  - Swimming Pool
+                  - Gym
+                  - Parking
+                totalApartments: 20
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '565'
+            ETag:
+              schema:
+                type: string
+                example: W/"235-QNUisFDR6Gs4Qvrw7zaDCeSQeVw"
+            Date:
+              schema:
+                type: string
+                example: Thu, 11 Jul 2024 19:00:04 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clyhmvrkv000h65qgnsvhly91
+                name: Calorei Apartments
+                description: Valley at greeen door.
+                propertysize: 5000
+                landlordId: '1'
+                agencyId: null
+                yearBuilt: '2020-05-20T00:00:00.000Z'
+                createdAt: '2024-07-11T19:00:04.063Z'
+                city: New York
+                state: NY
+                country: USA
+                zipcode: '10001'
+                location: 123 Main St, New York, NY 10001
+                images:
+                  - https://example.com/image1.jpg
+                  - https://example.com/image2.jpg
+                videourl:
+                  - https://example.com/video1.mp4
+                  - https://example.com/video2.mp4
+                amenities:
+                  - Swimming Pool
+                  - Gym
+                  - Parking
+                totalApartments: 20
+    get:
+      tags:
+        - Property
+      summary: get-property
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1191'
+            ETag:
+              schema:
+                type: string
+                example: W/"4a7-TVxeCAklzEMj9wx23eWKz0+yPAU"
+            Date:
+              schema:
+                type: string
+                example: Thu, 11 Jul 2024 18:59:33 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyhmt8k6000d65qgjsmfppsb
+                  name: Green Valley Apartments
+                  description: >-
+                    Luxurious apartments with modern amenities located in the
+                    heart of the city.
+                  propertysize: 5000
+                  landlordId: '1'
+                  agencyId: null
+                  yearBuilt: '2010-05-20T00:00:00.000Z'
+                  createdAt: '2024-07-11T18:58:06.102Z'
+                  city: New York
+                  state: NY
+                  country: USA
+                  zipcode: '10001'
+                  location: 123 Main St, New York, NY 10001
+                  images:
+                    - https://example.com/image1.jpg
+                    - https://example.com/image2.jpg
+                  videourl:
+                    - https://example.com/video1.mp4
+                    - https://example.com/video2.mp4
+                  amenities:
+                    - Swimming Pool
+                    - Gym
+                    - Parking
+                  totalApartments: 20
+                - id: clyhmuboc000f65qgebdldy0e
+                  name: RoseVille Apartments
+                  description: Candid Estate Yola.
+                  propertysize: 5000
+                  landlordId: '1'
+                  agencyId: null
+                  yearBuilt: '2020-05-20T00:00:00.000Z'
+                  createdAt: '2024-07-11T18:58:56.796Z'
+                  city: New York
+                  state: NY
+                  country: USA
+                  zipcode: '10001'
+                  location: 123 Main St, New York, NY 10001
+                  images:
+                    - https://example.com/image1.jpg
+                    - https://example.com/image2.jpg
+                  videourl:
+                    - https://example.com/video1.mp4
+                    - https://example.com/video2.mp4
+                  amenities:
+                    - Swimming Pool
+                    - Gym
+                    - Parking
+                  totalApartments: 20
+  /api/tenants/community/:
+    post:
+      tags:
+        - Tenants > Community
+      summary: Create Community Copy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                communityName: Band A LANDoHouse Apartments
+                description: Here we discuss about the betterment of our services
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Public Communities
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '902'
+            ETag:
+              schema:
+                type: string
+                example: W/"386-UPoYiKmsLlw7cJd62k3gMsVHDRY"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:40:11 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clykxi3yz0001i82najwfmodr
+                  communityName: Asher Estate 101
+                  communityOwnerId: '2'
+                  description: Here we discuss about the betterment of our services
+                  visibility: PUBLIC
+                  communityProfileImage: null
+                  communityProfileUrl: null
+                  createdAt: '2024-07-14T02:20:41.243Z'
+                  updatedAt: '2024-07-14T02:20:41.243Z'
+                  user:
+                    id: '2'
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '2'
+                      fullname: null
+                      profileUrl: null
+                - id: clykxmcs00001kkk6b58x7l1b
+                  communityName: Lemanuel Apartments
+                  communityOwnerId: '2'
+                  description: Here we discuss about the betterment of our services
+                  visibility: PUBLIC
+                  communityProfileImage: null
+                  communityProfileUrl: null
+                  createdAt: '2024-07-14T02:23:59.280Z'
+                  updatedAt: '2024-07-14T02:23:59.280Z'
+                  user:
+                    id: '2'
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '2'
+                      fullname: null
+                      profileUrl: null
+  /api/tenants/community/{communityId}:
+    delete:
+      tags:
+        - Tenants > Community
+      summary: Delete Community
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clylskfm70001oqslgouklrl8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Tenants > Community
+      summary: Update Community
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                communityName: WAYNDoHouse Housertments
+                description: Here we discuss about the betterment of our services
+                communityProfileImage: https://links.video.pic.jpg
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxmcs00001kkk6b58x7l1b
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '350'
+            ETag:
+              schema:
+                type: string
+                example: W/"15e-3VEWSayhgZlB2iMJDVZkbZrA/Rg"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:49:04 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clykxmcs00001kkk6b58x7l1b
+                communityName: WAYNDoHouse Housertments
+                communityOwnerId: '2'
+                description: Here we discuss about the betterment of our services
+                visibility: PUBLIC
+                communityProfileImage: https://links.video.pic.jpg
+                communityProfileUrl: null
+                createdAt: '2024-07-14T02:23:59.280Z'
+                updatedAt: '2024-07-14T16:49:04.148Z'
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Community By Id
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxmcs00001kkk6b58x7l1b
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '320'
+            ETag:
+              schema:
+                type: string
+                example: W/"140-lttrdwkAMsp9O8XgAcWI0RScMIc"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:45:48 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clykxmcs00001kkk6b58x7l1b
+                communityName: Lemanuel Apartments
+                communityOwnerId: '2'
+                description: Here we discuss about the betterment of our services
+                visibility: PUBLIC
+                communityProfileImage: null
+                communityProfileUrl: null
+                createdAt: '2024-07-14T02:23:59.280Z'
+                updatedAt: '2024-07-14T02:23:59.280Z'
+  /api/tenants/community/owner/{communityId}:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Community Owner Copy
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxi3yz0001i82najwfmodr
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '123'
+            ETag:
+              schema:
+                type: string
+                example: W/"7b-Er/PDXJCvJVOUPAHlYICDDCUw68"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 17:10:23 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: '2'
+                email: aliyutimileyin2340@gmail.com
+                role:
+                  - WEBUSER
+                profile:
+                  id: '2'
+                  fullname: null
+                  profileUrl: null
+  /api/tenants/community/{inviteCode}/invite:
+    patch:
+      tags:
+        - Tenants > Community
+      summary: JOIN Community
+      requestBody:
+        content: {}
+      parameters:
+        - name: inviteCode
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 193a2e91-bfe4-4652-995d-9c95bbfab70c
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '363'
+            ETag:
+              schema:
+                type: string
+                example: W/"16b-Sf898k8PiJdusuOh1aYcCgge9lc"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 15:52:50 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Joined community successfully
+                membership:
+                  id: clyn5yd1e0005tdl3ejzczn2n
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  status: MEMBER
+                  createdAt: '2024-07-15T15:52:48.770Z'
+                  updatedAt: '2024-07-15T15:52:48.770Z'
+                  user:
+                    id: '4'
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+  /api/tenants/community/{communityId}/members:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get community Memebrs
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyn5ohbd0001tdl3hdc1ra0l
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '308'
+            ETag:
+              schema:
+                type: string
+                example: W/"134-bDr4oVyuf4zNdq2GbfxGq73M4jU"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 15:58:46 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyn5yd1e0005tdl3ejzczn2n
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  status: MEMBER
+                  createdAt: '2024-07-15T15:52:48.770Z'
+                  updatedAt: '2024-07-15T15:52:48.770Z'
+                  user:
+                    id: '4'
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+  /api/community-post/{communityPostId}/like/:
+    post:
+      tags:
+        - Tenants > Community Post > Likes
+      summary: Like a Post
+      requestBody:
+        content: {}
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyndywhr0003xnxkspl9w8rv
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/community-post/{communityPostId}/view/:
+    post:
+      tags:
+        - Tenants > Community Post > Likes
+      summary: View a Post
+      requestBody:
+        content: {}
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyndywhr0003xnxkspl9w8rv
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/community-post/{communityPostId}/likes/:
+    get:
+      tags:
+        - Tenants > Community Post > Likes
+      summary: Get Likes
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyndywhr0003xnxkspl9w8rv
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '273'
+            ETag:
+              schema:
+                type: string
+                example: W/"111-dhC5cLkms1ZkwOXL31pxVFr4mQQ"
+            Date:
+              schema:
+                type: string
+                example: Tue, 16 Jul 2024 01:03:49 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                likes:
+                  - id: clynlbfe00004hn58k357yz4p
+                    postId: clyndywhr0003xnxkspl9w8rv
+                    userId: '4'
+                    createdAt: '2024-07-15T23:02:50.705Z'
+                    user:
+                      id: '4'
+                      role:
+                        - WEBUSER
+                      profile:
+                        id: '4'
+                        fullname: null
+                        profileUrl: null
+                totalCount: 1
+                currentPage: 1
+                totalPages: 1
+  /api/community-post/{communityPostId}/views/:
+    get:
+      tags:
+        - Tenants > Community Post > Likes
+      summary: Get Views
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyndywhr0003xnxkspl9w8rv
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '234'
+            ETag:
+              schema:
+                type: string
+                example: W/"ea-YbzGOs1waB3HoDFd4xTTKcHXYio"
+            Date:
+              schema:
+                type: string
+                example: Tue, 16 Jul 2024 01:04:13 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                views:
+                  - id: clynlc2wh0007hn58uznlc234
+                    postId: clyndywhr0003xnxkspl9w8rv
+                    userId: '4'
+                    user:
+                      id: '4'
+                      role:
+                        - WEBUSER
+                      profile:
+                        id: '4'
+                        fullname: null
+                        profileUrl: null
+                totalCount: 1
+                currentPage: 1
+                totalPages: 1
+  /api/community-post/{communityId}:
+    post:
+      tags:
+        - Tenants > Community Post
+      summary: Create Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Carlioex Mentor
+                category: Generator Ban
+                tags:
+                  - noise
+                  - paht
+                  - life
+                content: >-
+                  In a society withlessnoise we have seen scenerios where users
+                  can get about 30% more elonfgated life and keep still in their
+                  mindset and knowledge as having such ernomous power is
+                  constantly our driving force
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyn5ohbd0001tdl3hdc1ra0l
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '601'
+            ETag:
+              schema:
+                type: string
+                example: W/"259-iAMRg1nPw8CanHUP6O7u4WBCQ9A"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 19:37:12 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clyndywhr0003xnxkspl9w8rv
+                communityId: clyn5ohbd0001tdl3hdc1ra0l
+                userId: '4'
+                title: Livelihood Without Noise
+                category: Generator Ban
+                tags: []
+                content: >-
+                  I keep loooking forward tot the day breathing and mind
+                  palpitating will be siezed from the identified user due to
+                  this noise pollution that i cant withstand
+                imageUrl: >-
+                  https://res.cloudinary.com/carter827/image/upload/v1721044654/clojygr50lwltaytraiq.webp
+                createdAt: '2024-07-15T19:37:10.911Z'
+                updatedAt: '2024-07-15T19:37:10.911Z'
+                user:
+                  id: '4'
+                  role:
+                    - WEBUSER
+                  profile:
+                    id: '4'
+                    fullname: null
+                    profileUrl: null
+    get:
+      tags:
+        - Tenants > Community Post
+      summary: Get Community Posts
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyn5ohbd0001tdl3hdc1ra0l
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1602'
+            ETag:
+              schema:
+                type: string
+                example: W/"642-eppK1ut/yBqF+IFYPRXcewIaKis"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 20:14:02 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clynf3g1n0001kc0jyjbi1tcl
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  title: Abey Fetish Carlioex Mentor
+                  category: Eletric Wire Ban
+                  tags:
+                    - helpers
+                  content: This should be my updated content
+                  imageUrl: null
+                  createdAt: '2024-07-15T20:08:42.491Z'
+                  updatedAt: '2024-07-15T20:13:44.790Z'
+                  user:
+                    id: '4'
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+                - id: clyndywhr0003xnxkspl9w8rv
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  title: Livelihood Without Noise
+                  category: Generator Ban
+                  tags: []
+                  content: >-
+                    I keep loooking forward tot the day breathing and mind
+                    palpitating will be siezed from the identified user due to
+                    this noise pollution that i cant withstand
+                  imageUrl: >-
+                    https://res.cloudinary.com/carter827/image/upload/v1721044654/clojygr50lwltaytraiq.webp
+                  createdAt: '2024-07-15T19:37:10.911Z'
+                  updatedAt: '2024-07-15T19:37:10.911Z'
+                  user:
+                    id: '4'
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+                - id: clyndmu3u0001xnxk4qpihi1f
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  title: Livelihood Without Noise
+                  category: Generator Ban
+                  tags:
+                    - noise
+                    - paht
+                    - life
+                  content: >-
+                    In a society withlessnoise we have seen scenerios where
+                    users can get about 30% more elonfgated life and keep still
+                    in their mindset and knowledge as having such ernomous power
+                    is constantly our driving force
+                  imageUrl: null
+                  createdAt: '2024-07-15T19:27:47.946Z'
+                  updatedAt: '2024-07-15T19:27:47.946Z'
+                  user:
+                    id: '4'
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+  /api/community-post/{communityPostId}:
+    patch:
+      tags:
+        - Tenants > Community Post
+      summary: Update Community Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                tags:
+                  - helpers
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clynf3g1n0001kc0jyjbi1tcl
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '601'
+            ETag:
+              schema:
+                type: string
+                example: W/"259-iAMRg1nPw8CanHUP6O7u4WBCQ9A"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 19:37:12 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clyndywhr0003xnxkspl9w8rv
+                communityId: clyn5ohbd0001tdl3hdc1ra0l
+                userId: '4'
+                title: Livelihood Without Noise
+                category: Generator Ban
+                tags: []
+                content: >-
+                  I keep loooking forward tot the day breathing and mind
+                  palpitating will be siezed from the identified user due to
+                  this noise pollution that i cant withstand
+                imageUrl: >-
+                  https://res.cloudinary.com/carter827/image/upload/v1721044654/clojygr50lwltaytraiq.webp
+                createdAt: '2024-07-15T19:37:10.911Z'
+                updatedAt: '2024-07-15T19:37:10.911Z'
+                user:
+                  id: '4'
+                  role:
+                    - WEBUSER
+                  profile:
+                    id: '4'
+                    fullname: null
+                    profileUrl: null
+    delete:
+      tags:
+        - Tenants > Community Post
+      summary: Delete Single Community Post
+      parameters:
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clynf3g1n0001kc0jyjbi1tcl
+      responses:
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '28'
+            ETag:
+              schema:
+                type: string
+                example: W/"1c-DL8tGGICEZMKGbak4RMHZ6BNy0o"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 20:15:25 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Post not found
+  /api/community-post/{communityId}/post/{communityPostId}:
+    get:
+      tags:
+        - Tenants > Community Post
+      summary: Get Single Community Posts
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyn5ohbd0001tdl3hdc1ra0l
+        - name: communityPostId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyndywhr0003xnxkspl9w8rv
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '511'
+            ETag:
+              schema:
+                type: string
+                example: W/"1ff-G1AOExi5qkmsxFPutkth/j9hybM"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 19:59:58 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyndywhr0003xnxkspl9w8rv
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  title: Livelihood Without Noise
+                  category: Generator Ban
+                  tags: []
+                  content: >-
+                    I keep loooking forward tot the day breathing and mind
+                    palpitating will be siezed from the identified user due to
+                    this noise pollution that i cant withstand
+                  imageUrl: >-
+                    https://res.cloudinary.com/carter827/image/upload/v1721044654/clojygr50lwltaytraiq.webp
+                  createdAt: '2024-07-15T19:37:10.911Z'
+                  updatedAt: '2024-07-15T19:37:10.911Z'
 
