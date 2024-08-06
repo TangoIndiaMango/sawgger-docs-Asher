@@ -3,7 +3,9 @@ info:
   title: ASHER2.0
   version: 1.0.0
 servers:
+  - url: http://localhost:4321
   - url: http://{{host}}
+  - url: http://localhost:4001
 components:
   securitySchemes:
     bearerAuth:
@@ -12,6 +14,7 @@ components:
 security:
   - bearerAuth: []
 tags:
+  - name: chats
   - name: Emails
   - name: Auth
     description: >-
@@ -95,10 +98,73 @@ tags:
       returned, requiring the user to re-authenticate.
   - name: Property
   - name: Tenants
-  - name: Tenants > Community
   - name: Tenants > Community Post
   - name: Tenants > Community Post > Likes
+  - name: Tenants > Community
+  - name: Tenants > ADS
+  - name: Tenants > Support
+  - name: Payment
+  - name: Payment > Transactions
+  - name: application
+  - name: status
+  - name: property
+  - name: category
+  - name: apartment
+  - name: maintenance
+  - name: services
+  - name: Profile
+  - name: Landlord
+  - name: Wallet
 paths:
+  /api/chats/room/14:
+    post:
+      tags:
+        - chats
+      summary: chat-room-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/chats/room/message/1/17:
+    post:
+      tags:
+        - chats
+      summary: chat-room-create-message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                content: lemme check for available rooms
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/chats/room/1:
+    get:
+      tags:
+        - chats
+      summary: chat-room-messages
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/emails/:
     post:
       tags:
@@ -115,7 +181,7 @@ paths:
                   format: binary
                 recieverEmail:
                   type: string
-                  example: admin123@gmail.com
+                  example: wrefordmessi+2@gmail.com
                 subject:
                   type: string
                   example: Cancas Housing Estate Moves
@@ -339,7 +405,7 @@ paths:
           schema:
             type: string
           required: true
-          example: aliyutimileyin2340@gmail.com
+          example: admin123@gmail.com
       responses:
         '200':
           description: OK
@@ -675,21 +741,88 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/emails/{emailId}/send:
+    patch:
+      tags:
+        - Emails
+      summary: Send Draft Email
+      requestBody:
+        content: {}
+      parameters:
+        - name: emailId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzftpgk90009bmvqtzda7gvw
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '504'
+            ETag:
+              schema:
+                type: string
+                example: W/"1f8-i8w89SpxsIIZq62cPNxYz5o+Bbw"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:17:14 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clzftpgk90009bmvqtzda7gvw
+                senderEmail: admin123@gmail.com
+                recieverEmail: wrefordmessi+2@gmail.com
+                subject: Cancas Housing Estate Moves
+                body: >-
+                  You can find the doc attached We need to update the
+                  markEmailAsRead and sendDraftEmail methods to work with our
+                  new email model.
+                attachment:
+                  - >-
+                    https://res.cloudinary.com/carter827/raw/upload/v1722791715/noo8saqntrorp9t0mrel
+                isReadBySender: true
+                isReadByReciever: false
+                isDraft: false
+                isSent: true
+                createdAt: '2024-08-04T17:15:17.145Z'
   /api/auth/register:
     post:
       tags:
-        - Auth
-      summary: Register
+        - Landlord
+      summary: landlord_create
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                email: admin123@gmail.com
-                password: admin123
-      security:
-        - bearerAuth: []
+                email: wrefordmessi+2@gmail.com
+                password: pass1234
+                gender: male
+                role: LANDLORD
       responses:
         '201':
           description: Created
@@ -705,15 +838,15 @@ paths:
             Content-Length:
               schema:
                 type: integer
-                example: '297'
+                example: '390'
             ETag:
               schema:
                 type: string
-                example: W/"129-/e7muHecJIHfFnxeDjcgvqmTGvY"
+                example: W/"186-nGfyvMFE8AIeQCghQ01tWFW82q4"
             Date:
               schema:
                 type: string
-                example: Wed, 10 Jul 2024 00:23:55 GMT
+                example: Sun, 04 Aug 2024 14:09:10 GMT
             Connection:
               schema:
                 type: string
@@ -731,76 +864,33 @@ paths:
                   User registered successfully, check your email for
                   verification code
                 user:
-                  id: '2'
-                  email: aliyutimileyin2340@gmail.com
-                  password: $2b$10$vgqi07DYuj/C1TemS1vckuPca0kxUG1uwyJvUuitKQg3Dklvo8ReS
+                  id: clzfn243x000011apakf8d5w8
+                  email: wrefordmessi+2@gmail.com
+                  password: $2b$10$B0vMmcigD5z2wtRm7BlH4.VlcgDUhIJUADbP8lhFuhtSp67H6jWk2
                   isVerified: false
-                  createdAt: {}
-                  updatedAt: {}
+                  createdAt: '2024-08-04T14:09:10.221Z'
+                  updatedAt: '2024-08-04T14:09:10.221Z'
                   role:
-                    - WEBUSER
-                  profileId: '2'
+                    - LANDLORD
+                  profileId: clzfn243x000111apw8e5qasn
   /api/auth/login:
     post:
       tags:
         - Auth
-      summary: Login
+      summary: login
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                email: admin123@gmail.com
-                password: admin123
+                email: wrefordmessi+2@gmail.com
+                password: pass1234
       responses:
         '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '402'
-            ETag:
-              schema:
-                type: string
-                example: W/"192-0iLL5s5J8wLoVXLacMzWV/bDtnI"
-            Date:
-              schema:
-                type: string
-                example: Wed, 10 Jul 2024 00:26:38 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-              example:
-                message: User logged in successfully
-                token: >-
-                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IldFQlVTRVIiLCJlbWFpbCI6ImFsaXl1dGltaWxleWluMjM0MEBnbWFpbC5jb20iLCJpYXQiOjE3MjA1NzExOTgsImV4cCI6MTcyMDU3NDc5OH0.KkKww_QIg24Oh7_onfWLc-ntQ5-XegHhvCduHHkPCuw
-                userDetails:
-                  email: aliyutimileyin2340@gmail.com
-                  isVerified: true
-                  createdAt: {}
-                  updatedAt: {}
-                  role:
-                    - WEBUSER
-                  profileId: '2'
+            application/json: {}
   /api/user/me:
     get:
       tags:
@@ -814,66 +904,24 @@ paths:
   /api/auth/verify:
     post:
       tags:
-        - Auth
-      summary: Verify email
+        - Landlord
+      summary: verify
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                email: admin123@gmail.com
-                token: ts3znomi85lyf5bk81
+                email: wrefordmessi+2@gmail.com
+                token: '702016'
       responses:
         '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '180'
-            ETag:
-              schema:
-                type: string
-                example: W/"b4-MAuSLqAdGVQBJDxxNTbJaw5IE5M"
-            Date:
-              schema:
-                type: string
-                example: Wed, 10 Jul 2024 00:19:05 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-              example:
-                message: User verified successfully
-                user:
-                  id: '1'
-                  email: aliyutimileyin2340@gmail.com
-                  isVerified: true
-                  createdAt: {}
-                  updatedAt: {}
-                  role:
-                    - WEBUSER
-                  profileId: '1'
+            application/json: {}
     get:
       tags:
-        - Auth
+        - Profile
       summary: Update Profile
       responses:
         '200':
@@ -1074,430 +1122,6 @@ paths:
                     - Gym
                     - Parking
                   totalApartments: 20
-  /api/tenants/community/:
-    post:
-      tags:
-        - Tenants > Community
-      summary: Create Community Copy
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                communityName: Band A LANDoHouse Apartments
-                description: Here we discuss about the betterment of our services
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    get:
-      tags:
-        - Tenants > Community
-      summary: Get Public Communities
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '902'
-            ETag:
-              schema:
-                type: string
-                example: W/"386-UPoYiKmsLlw7cJd62k3gMsVHDRY"
-            Date:
-              schema:
-                type: string
-                example: Sun, 14 Jul 2024 16:40:11 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                - id: clykxi3yz0001i82najwfmodr
-                  communityName: Asher Estate 101
-                  communityOwnerId: '2'
-                  description: Here we discuss about the betterment of our services
-                  visibility: PUBLIC
-                  communityProfileImage: null
-                  communityProfileUrl: null
-                  createdAt: '2024-07-14T02:20:41.243Z'
-                  updatedAt: '2024-07-14T02:20:41.243Z'
-                  user:
-                    id: '2'
-                    email: aliyutimileyin2340@gmail.com
-                    role:
-                      - WEBUSER
-                    profile:
-                      id: '2'
-                      fullname: null
-                      profileUrl: null
-                - id: clykxmcs00001kkk6b58x7l1b
-                  communityName: Lemanuel Apartments
-                  communityOwnerId: '2'
-                  description: Here we discuss about the betterment of our services
-                  visibility: PUBLIC
-                  communityProfileImage: null
-                  communityProfileUrl: null
-                  createdAt: '2024-07-14T02:23:59.280Z'
-                  updatedAt: '2024-07-14T02:23:59.280Z'
-                  user:
-                    id: '2'
-                    email: aliyutimileyin2340@gmail.com
-                    role:
-                      - WEBUSER
-                    profile:
-                      id: '2'
-                      fullname: null
-                      profileUrl: null
-  /api/tenants/community/{communityId}:
-    delete:
-      tags:
-        - Tenants > Community
-      summary: Delete Community
-      parameters:
-        - name: communityId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: clylskfm70001oqslgouklrl8
-      responses:
-        '200':
-          description: Successful response
-          content:
-            application/json: {}
-    patch:
-      tags:
-        - Tenants > Community
-      summary: Update Community
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                communityName: WAYNDoHouse Housertments
-                description: Here we discuss about the betterment of our services
-                communityProfileImage: https://links.video.pic.jpg
-      parameters:
-        - name: communityId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: clykxmcs00001kkk6b58x7l1b
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '350'
-            ETag:
-              schema:
-                type: string
-                example: W/"15e-3VEWSayhgZlB2iMJDVZkbZrA/Rg"
-            Date:
-              schema:
-                type: string
-                example: Sun, 14 Jul 2024 16:49:04 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                id: clykxmcs00001kkk6b58x7l1b
-                communityName: WAYNDoHouse Housertments
-                communityOwnerId: '2'
-                description: Here we discuss about the betterment of our services
-                visibility: PUBLIC
-                communityProfileImage: https://links.video.pic.jpg
-                communityProfileUrl: null
-                createdAt: '2024-07-14T02:23:59.280Z'
-                updatedAt: '2024-07-14T16:49:04.148Z'
-    get:
-      tags:
-        - Tenants > Community
-      summary: Get Community By Id
-      parameters:
-        - name: communityId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: clykxmcs00001kkk6b58x7l1b
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '320'
-            ETag:
-              schema:
-                type: string
-                example: W/"140-lttrdwkAMsp9O8XgAcWI0RScMIc"
-            Date:
-              schema:
-                type: string
-                example: Sun, 14 Jul 2024 16:45:48 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                id: clykxmcs00001kkk6b58x7l1b
-                communityName: Lemanuel Apartments
-                communityOwnerId: '2'
-                description: Here we discuss about the betterment of our services
-                visibility: PUBLIC
-                communityProfileImage: null
-                communityProfileUrl: null
-                createdAt: '2024-07-14T02:23:59.280Z'
-                updatedAt: '2024-07-14T02:23:59.280Z'
-  /api/tenants/community/owner/{communityId}:
-    get:
-      tags:
-        - Tenants > Community
-      summary: Get Community Owner Copy
-      parameters:
-        - name: communityId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: clykxi3yz0001i82najwfmodr
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '123'
-            ETag:
-              schema:
-                type: string
-                example: W/"7b-Er/PDXJCvJVOUPAHlYICDDCUw68"
-            Date:
-              schema:
-                type: string
-                example: Sun, 14 Jul 2024 17:10:23 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                id: '2'
-                email: aliyutimileyin2340@gmail.com
-                role:
-                  - WEBUSER
-                profile:
-                  id: '2'
-                  fullname: null
-                  profileUrl: null
-  /api/tenants/community/{inviteCode}/invite:
-    patch:
-      tags:
-        - Tenants > Community
-      summary: JOIN Community
-      requestBody:
-        content: {}
-      parameters:
-        - name: inviteCode
-          in: path
-          schema:
-            type: string
-          required: true
-          example: 193a2e91-bfe4-4652-995d-9c95bbfab70c
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '363'
-            ETag:
-              schema:
-                type: string
-                example: W/"16b-Sf898k8PiJdusuOh1aYcCgge9lc"
-            Date:
-              schema:
-                type: string
-                example: Mon, 15 Jul 2024 15:52:50 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                message: Joined community successfully
-                membership:
-                  id: clyn5yd1e0005tdl3ejzczn2n
-                  communityId: clyn5ohbd0001tdl3hdc1ra0l
-                  userId: '4'
-                  status: MEMBER
-                  createdAt: '2024-07-15T15:52:48.770Z'
-                  updatedAt: '2024-07-15T15:52:48.770Z'
-                  user:
-                    id: '4'
-                    email: admin123@gmail.com
-                    role:
-                      - WEBUSER
-                    profile:
-                      id: '4'
-                      fullname: null
-                      profileUrl: null
-  /api/tenants/community/{communityId}/members:
-    get:
-      tags:
-        - Tenants > Community
-      summary: Get community Memebrs
-      parameters:
-        - name: communityId
-          in: path
-          schema:
-            type: string
-          required: true
-          example: clyn5ohbd0001tdl3hdc1ra0l
-      responses:
-        '200':
-          description: OK
-          headers:
-            X-Powered-By:
-              schema:
-                type: string
-                example: Express
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            Content-Length:
-              schema:
-                type: integer
-                example: '308'
-            ETag:
-              schema:
-                type: string
-                example: W/"134-bDr4oVyuf4zNdq2GbfxGq73M4jU"
-            Date:
-              schema:
-                type: string
-                example: Mon, 15 Jul 2024 15:58:46 GMT
-            Connection:
-              schema:
-                type: string
-                example: keep-alive
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                - id: clyn5yd1e0005tdl3ejzczn2n
-                  communityId: clyn5ohbd0001tdl3hdc1ra0l
-                  userId: '4'
-                  status: MEMBER
-                  createdAt: '2024-07-15T15:52:48.770Z'
-                  updatedAt: '2024-07-15T15:52:48.770Z'
-                  user:
-                    id: '4'
-                    email: admin123@gmail.com
-                    role:
-                      - WEBUSER
-                    profile:
-                      id: '4'
-                      fullname: null
-                      profileUrl: null
   /api/community-post/{communityPostId}/like/:
     post:
       tags:
@@ -2064,4 +1688,2405 @@ paths:
                     https://res.cloudinary.com/carter827/image/upload/v1721044654/clojygr50lwltaytraiq.webp
                   createdAt: '2024-07-15T19:37:10.911Z'
                   updatedAt: '2024-07-15T19:37:10.911Z'
-
+  /api/tenants/community/{communityId}:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Community By Id
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxmcs00001kkk6b58x7l1b
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '320'
+            ETag:
+              schema:
+                type: string
+                example: W/"140-lttrdwkAMsp9O8XgAcWI0RScMIc"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:45:48 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clykxmcs00001kkk6b58x7l1b
+                communityName: Lemanuel Apartments
+                communityOwnerId: '2'
+                description: Here we discuss about the betterment of our services
+                visibility: PUBLIC
+                communityProfileImage: null
+                communityProfileUrl: null
+                createdAt: '2024-07-14T02:23:59.280Z'
+                updatedAt: '2024-07-14T02:23:59.280Z'
+    delete:
+      tags:
+        - Tenants > Community
+      summary: Delete Community
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clylskfm70001oqslgouklrl8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - Tenants > Community
+      summary: Update Community
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                communityName: WAYNDoHouse Housertments
+                description: Here we discuss about the betterment of our services
+                communityProfileImage: https://links.video.pic.jpg
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxmcs00001kkk6b58x7l1b
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '350'
+            ETag:
+              schema:
+                type: string
+                example: W/"15e-3VEWSayhgZlB2iMJDVZkbZrA/Rg"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:49:04 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clykxmcs00001kkk6b58x7l1b
+                communityName: WAYNDoHouse Housertments
+                communityOwnerId: '2'
+                description: Here we discuss about the betterment of our services
+                visibility: PUBLIC
+                communityProfileImage: https://links.video.pic.jpg
+                communityProfileUrl: null
+                createdAt: '2024-07-14T02:23:59.280Z'
+                updatedAt: '2024-07-14T16:49:04.148Z'
+  /api/tenants/community/:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Public Communities
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '902'
+            ETag:
+              schema:
+                type: string
+                example: W/"386-UPoYiKmsLlw7cJd62k3gMsVHDRY"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 16:40:11 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clykxi3yz0001i82najwfmodr
+                  communityName: Asher Estate 101
+                  communityOwnerId: '2'
+                  description: Here we discuss about the betterment of our services
+                  visibility: PUBLIC
+                  communityProfileImage: null
+                  communityProfileUrl: null
+                  createdAt: '2024-07-14T02:20:41.243Z'
+                  updatedAt: '2024-07-14T02:20:41.243Z'
+                  user:
+                    id: '2'
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '2'
+                      fullname: null
+                      profileUrl: null
+                - id: clykxmcs00001kkk6b58x7l1b
+                  communityName: Lemanuel Apartments
+                  communityOwnerId: '2'
+                  description: Here we discuss about the betterment of our services
+                  visibility: PUBLIC
+                  communityProfileImage: null
+                  communityProfileUrl: null
+                  createdAt: '2024-07-14T02:23:59.280Z'
+                  updatedAt: '2024-07-14T02:23:59.280Z'
+                  user:
+                    id: '2'
+                    email: aliyutimileyin2340@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '2'
+                      fullname: null
+                      profileUrl: null
+    post:
+      tags:
+        - Tenants > Community
+      summary: Create Community Copy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                communityName: Band A LANDoHouse Apartments
+                description: Here we discuss about the betterment of our services
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tenants/community/owner/{communityId}:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Community Owner Copy
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clykxi3yz0001i82najwfmodr
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '123'
+            ETag:
+              schema:
+                type: string
+                example: W/"7b-Er/PDXJCvJVOUPAHlYICDDCUw68"
+            Date:
+              schema:
+                type: string
+                example: Sun, 14 Jul 2024 17:10:23 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: '2'
+                email: aliyutimileyin2340@gmail.com
+                role:
+                  - WEBUSER
+                profile:
+                  id: '2'
+                  fullname: null
+                  profileUrl: null
+  /api/tenants/community/{communityId}/members:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get community Memebrs
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clyn5ohbd0001tdl3hdc1ra0l
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '308'
+            ETag:
+              schema:
+                type: string
+                example: W/"134-bDr4oVyuf4zNdq2GbfxGq73M4jU"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 15:58:46 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clyn5yd1e0005tdl3ejzczn2n
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  status: MEMBER
+                  createdAt: '2024-07-15T15:52:48.770Z'
+                  updatedAt: '2024-07-15T15:52:48.770Z'
+                  user:
+                    id: '4'
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+  /api/tenants/community/{communityId}/invitations:
+    get:
+      tags:
+        - Tenants > Community
+      summary: Get Community Invitation
+      parameters:
+        - name: communityId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzh9whnh0001qjbr81otombx
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '72'
+            ETag:
+              schema:
+                type: string
+                example: W/"48-NvLQEnm5sTJZf1Y5nRncsyewD9w"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 17:49:45 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                inviteUrl: undefined/community/574b05f8-e923-4734-a6eb-d71e63a54597
+  /api/tenants/community/{inviteCode}/invite:
+    patch:
+      tags:
+        - Tenants > Community
+      summary: JOIN Community
+      requestBody:
+        content: {}
+      parameters:
+        - name: inviteCode
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 193a2e91-bfe4-4652-995d-9c95bbfab70c
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '363'
+            ETag:
+              schema:
+                type: string
+                example: W/"16b-Sf898k8PiJdusuOh1aYcCgge9lc"
+            Date:
+              schema:
+                type: string
+                example: Mon, 15 Jul 2024 15:52:50 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Joined community successfully
+                membership:
+                  id: clyn5yd1e0005tdl3ejzczn2n
+                  communityId: clyn5ohbd0001tdl3hdc1ra0l
+                  userId: '4'
+                  status: MEMBER
+                  createdAt: '2024-07-15T15:52:48.770Z'
+                  updatedAt: '2024-07-15T15:52:48.770Z'
+                  user:
+                    id: '4'
+                    email: admin123@gmail.com
+                    role:
+                      - WEBUSER
+                    profile:
+                      id: '4'
+                      fullname: null
+                      profileUrl: null
+  /api/ads/:
+    post:
+      tags:
+        - Tenants > ADS
+      summary: Create Ads Copy
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Tech Innovation Conference
+                description:
+                  type: string
+                  example: >-
+                    Annual conference showcasing the latest advancements in
+                    technology
+                startedDate:
+                  type: string
+                  example: '2024-09-10T08:00:00Z'
+                endDate:
+                  type: string
+                  example: '2024-09-12T18:00:00Z'
+                bussinessDetails:
+                  type: string
+                  example: >-
+                    {"bussinessName": "TechHub Industries",
+                    "bussinessDescription": "Leading technology conference
+                    organizer", "bussinessWebsite":
+                    "https://www.techhubconf.com"}
+                files:
+                  type: string
+                  format: binary
+                amountPaid:
+                  type: integer
+                  example: '10000'
+                contactInfo:
+                  type: integer
+                  example: '8199087612'
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '957'
+            ETag:
+              schema:
+                type: string
+                example: W/"3bd-cXDIf6ZI9LXEHNXOLt06lnbweA8"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 21:04:19 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Create Ads
+                  value:
+                    id: clzg1w0kp0004dzz1p0crnfdt
+                    title: Summer Music Festival
+                    description: >-
+                      A 3-day outdoor music festival featuring local and
+                      international artists
+                    amountPaid: '15000'
+                    locations:
+                      - Central Park
+                      - Downtown Square
+                    bussinessDetails:
+                      bussinessName: Melody Events Co.
+                      bussinessEmail: info@melodyevents.com
+                      bussinessPhone: +1 (555) 123-4567
+                      bussinessWebsite: https://www.melodyevents.com
+                      bussinessDescription: Premier event organizer specializing in music festivals
+                    contactInfo: >-
+                      For inquiries, please contact John Doe at
+                      john@melodyevents.com
+                    startedDate: '2024-07-15T09:00:00.000Z'
+                    endDate: '2024-07-17T23:00:00.000Z'
+                    attachment:
+                      - >-
+                        https://res.cloudinary.com/carter827/image/upload/v1722805458/czobseq21q6crjxa64gc.webp
+                    isListed: false
+                    views: 0
+                    clicks: 0
+                    reach: 0
+                    userId: clzfmgxtz0000iflxze4ib56n
+                    referenceId: clzg1w0kc0002dzz1jolyylql
+                    createdAt: '2024-08-04T21:04:19.945Z'
+                    updatedAt: '2024-08-04T21:04:19.945Z'
+                example-1:
+                  summary: Create Ads Copy
+                  value:
+                    id: clzh6gyi80008145n767gzwpa
+                    title: Tech Innovation Conference
+                    description: >-
+                      Annual conference showcasing the latest advancements in
+                      technology
+                    amountPaid: '10000'
+                    locations: []
+                    bussinessDetails:
+                      bussinessName: TechHub Industries
+                      bussinessWebsite: https://www.techhubconf.com
+                      bussinessDescription: Leading technology conference organizer
+                    contactInfo: '8199087612'
+                    startedDate: '2024-09-10T08:00:00.000Z'
+                    endDate: '2024-09-12T18:00:00.000Z'
+                    attachment:
+                      - >-
+                        https://res.cloudinary.com/carter827/image/upload/v1722873621/g2f7vvdmevafnxkq7mek.webp
+                    isListed: false
+                    views: 0
+                    clicks: 0
+                    reach: 0
+                    userId: clzfmgxtz0000iflxze4ib56n
+                    referenceId: clzh6gyos000b145nao3slw6d
+                    createdAt: '2024-08-05T16:00:21.677Z'
+                    updatedAt: '2024-08-05T16:00:21.677Z'
+  /api/ads/listed:
+    get:
+      tags:
+        - Tenants > ADS
+      summary: Get All listed Ads
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '33'
+            ETag:
+              schema:
+                type: string
+                example: W/"21-oDqVAJB4tESOwETb+dI2/xTmrzs"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 16:03:36 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: No listed ads found
+  /api/ads/{adsId}:
+    get:
+      tags:
+        - Tenants > ADS
+      summary: Get Ads by Id
+      parameters:
+        - name: adsId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzh6gyi80008145n767gzwpa
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1019'
+            ETag:
+              schema:
+                type: string
+                example: W/"3fb-kIYyuIsqP7gfxj2XF83fNSpOif8"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 16:04:48 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clzh6gyi80008145n767gzwpa
+                title: Tech Innovation Conference
+                description: >-
+                  Annual conference showcasing the latest advancements in
+                  technology
+                amountPaid: '10000'
+                locations: []
+                bussinessDetails:
+                  bussinessName: TechHub Industries
+                  bussinessWebsite: https://www.techhubconf.com
+                  bussinessDescription: Leading technology conference organizer
+                contactInfo: '8199087612'
+                startedDate: '2024-09-10T08:00:00.000Z'
+                endDate: '2024-09-12T18:00:00.000Z'
+                attachment:
+                  - >-
+                    https://res.cloudinary.com/carter827/image/upload/v1722873621/g2f7vvdmevafnxkq7mek.webp
+                isListed: false
+                views: 0
+                clicks: 0
+                reach: 0
+                userId: clzfmgxtz0000iflxze4ib56n
+                referenceId: clzh6gyos000b145nao3slw6d
+                createdAt: '2024-08-05T16:00:21.677Z'
+                updatedAt: '2024-08-05T16:00:21.677Z'
+                user:
+                  id: clzfmgxtz0000iflxze4ib56n
+                  role:
+                    - WEBUSER
+                  profile:
+                    id: clzfmgxu00001iflxvxkfnc9b
+                    fullname: Winnie ToolTip Jang
+                    profileUrl: >-
+                      https://res.cloudinary.com/carter827/image/upload/v1722780439/kh8t1afb0hp6smyifjyy.webp
+  /api/ads/post/location:
+    get:
+      tags:
+        - Tenants > ADS
+      summary: Get Ads by Location
+      parameters:
+        - name: location
+          in: query
+          schema:
+            type: string
+          example: Central Park
+        - name: isListed
+          in: query
+          schema:
+            type: boolean
+          example: 'false'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '959'
+            ETag:
+              schema:
+                type: string
+                example: W/"3bf-NZzML343XQYfVXI12Nint3EG1Wc"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 16:32:53 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clzg1w0kp0004dzz1p0crnfdt
+                  title: Summer Music Festival
+                  description: >-
+                    A 3-day outdoor music festival featuring local and
+                    international artists
+                  amountPaid: '15000'
+                  locations:
+                    - Central Park
+                    - Downtown Square
+                  bussinessDetails:
+                    bussinessName: Melody Events Co.
+                    bussinessEmail: info@melodyevents.com
+                    bussinessPhone: +1 (555) 123-4567
+                    bussinessWebsite: https://www.melodyevents.com
+                    bussinessDescription: Premier event organizer specializing in music festivals
+                  contactInfo: >-
+                    For inquiries, please contact John Doe at
+                    john@melodyevents.com
+                  startedDate: '2024-07-15T09:00:00.000Z'
+                  endDate: '2024-07-17T23:00:00.000Z'
+                  attachment:
+                    - >-
+                      https://res.cloudinary.com/carter827/image/upload/v1722805458/czobseq21q6crjxa64gc.webp
+                  isListed: false
+                  views: 0
+                  clicks: 0
+                  reach: 0
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  referenceId: clzg1w0kc0002dzz1jolyylql
+                  createdAt: '2024-08-04T21:04:19.945Z'
+                  updatedAt: '2024-08-04T21:04:19.945Z'
+  /api/ads/user/{userId}:
+    get:
+      tags:
+        - Tenants > ADS
+      summary: Get Ads a User Posted
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzfmgxtz0000iflxze4ib56n
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1737'
+            ETag:
+              schema:
+                type: string
+                example: W/"6c9-d9XVggqnGaWm7iEFTDn+xYKem6M"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 17:19:49 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: clzg1w0kp0004dzz1p0crnfdt
+                  title: Summer Music Festival
+                  description: >-
+                    A 3-day outdoor music festival featuring local and
+                    international artists
+                  amountPaid: '15000'
+                  locations:
+                    - Central Park
+                    - Downtown Square
+                  bussinessDetails:
+                    bussinessName: Melody Events Co.
+                    bussinessEmail: info@melodyevents.com
+                    bussinessPhone: +1 (555) 123-4567
+                    bussinessWebsite: https://www.melodyevents.com
+                    bussinessDescription: Premier event organizer specializing in music festivals
+                  contactInfo: >-
+                    For inquiries, please contact John Doe at
+                    john@melodyevents.com
+                  startedDate: '2024-07-15T09:00:00.000Z'
+                  endDate: '2024-07-17T23:00:00.000Z'
+                  attachment:
+                    - >-
+                      https://res.cloudinary.com/carter827/image/upload/v1722805458/czobseq21q6crjxa64gc.webp
+                  isListed: false
+                  views: 0
+                  clicks: 0
+                  reach: 0
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  referenceId: clzg1w0kc0002dzz1jolyylql
+                  createdAt: '2024-08-04T21:04:19.945Z'
+                  updatedAt: '2024-08-04T21:04:19.945Z'
+                - id: clzh6gyi80008145n767gzwpa
+                  title: Tech Innovation Conference
+                  description: >-
+                    Annual conference showcasing the latest advancements in
+                    technology
+                  amountPaid: '10000'
+                  locations: []
+                  bussinessDetails:
+                    bussinessName: TechHub Industries
+                    bussinessWebsite: https://www.techhubconf.com
+                    bussinessDescription: Leading technology conference organizer
+                  contactInfo: '8199087612'
+                  startedDate: '2024-09-10T08:00:00.000Z'
+                  endDate: '2024-09-12T18:00:00.000Z'
+                  attachment:
+                    - >-
+                      https://res.cloudinary.com/carter827/image/upload/v1722873621/g2f7vvdmevafnxkq7mek.webp
+                  isListed: false
+                  views: 0
+                  clicks: 0
+                  reach: 0
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  referenceId: clzh6gyos000b145nao3slw6d
+                  createdAt: '2024-08-05T16:00:21.677Z'
+                  updatedAt: '2024-08-05T16:00:21.677Z'
+  /api/ads/{adsId}/stats:
+    get:
+      tags:
+        - Tenants > ADS
+      summary: Get Ads Statistics
+      parameters:
+        - name: adsId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzg1w0kp0004dzz1p0crnfdt
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '32'
+            ETag:
+              schema:
+                type: string
+                example: W/"20-rjRSHsvyT2YESYWt+hE1Bh5gUlk"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 17:21:33 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Get Ads Statistics
+                  value:
+                    views: 0
+                    reach: 0
+                    clicks: 0
+                example-1:
+                  summary: Get Ads Statistics With value
+                  value:
+                    views: 1
+                    reach: 1
+                    clicks: 1
+    patch:
+      tags:
+        - Tenants > ADS
+      summary: Increment ads stats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                statType: reach
+      parameters:
+        - name: adsId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzg1w0kp0004dzz1p0crnfdt
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '32'
+            ETag:
+              schema:
+                type: string
+                example: W/"20-rjRSHsvyT2YESYWt+hE1Bh5gUlk"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 17:21:33 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Get Ads Statistics
+                  value:
+                    views: 0
+                    reach: 0
+                    clicks: 0
+                example-1:
+                  summary: Get Ads Statistics <-reach->
+                  value:
+                    id: clzg1w0kp0004dzz1p0crnfdt
+                    title: Summer Music Festival
+                    description: >-
+                      A 3-day outdoor music festival featuring local and
+                      international artists
+                    amountPaid: '15000'
+                    locations:
+                      - Central Park
+                      - Downtown Square
+                    bussinessDetails:
+                      bussinessName: Melody Events Co.
+                      bussinessEmail: info@melodyevents.com
+                      bussinessPhone: +1 (555) 123-4567
+                      bussinessWebsite: https://www.melodyevents.com
+                      bussinessDescription: Premier event organizer specializing in music festivals
+                    contactInfo: >-
+                      For inquiries, please contact John Doe at
+                      john@melodyevents.com
+                    startedDate: '2024-07-15T09:00:00.000Z'
+                    endDate: '2024-07-17T23:00:00.000Z'
+                    attachment:
+                      - >-
+                        https://res.cloudinary.com/carter827/image/upload/v1722805458/czobseq21q6crjxa64gc.webp
+                    isListed: false
+                    views: 1
+                    clicks: 1
+                    reach: 1
+                    userId: clzfmgxtz0000iflxze4ib56n
+                    referenceId: clzg1w0kc0002dzz1jolyylql
+                    createdAt: '2024-08-04T21:04:19.945Z'
+                    updatedAt: '2024-08-05T17:24:56.210Z'
+  /api/support/:
+    post:
+      tags:
+        - Tenants > Support
+      summary: Create Support Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: An eneromous debt noticed in my wallet
+                description: >-
+                  It's been day 3 of me hitting up the CTO's discusing about the
+                  varietes of problem the clients have been attaching to my
+                  indusrtial building
+                subject: Maintainer Issue
+                assignedTo: landlord
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/transactions/transfer:
+    post:
+      tags:
+        - Payment > Transactions
+      summary: Transfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                amount: 15000
+                recieiverId: clzfn243x000011apakf8d5w8
+                description: Here's a few thousands for your estimated work flow sir
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '384'
+            ETag:
+              schema:
+                type: string
+                example: W/"180-Mz4LhjYVuw4fmtlxLwdz+ypL908"
+            Date:
+              schema:
+                type: string
+                example: Mon, 05 Aug 2024 17:25:59 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clzh9j2o90002g78immdf43x0
+                description: Here's a few thousands for your estimated work flow sir
+                amount: '15000'
+                userId: clzfmgxtz0000iflxze4ib56n
+                transactionType: MAKEPAYMENT
+                transactionStatus: COMPLETED
+                walletId: clzfu6ub300014kvmiulwg2t6
+                referenceId: REF-1722878759234-3864ff54
+                createdAt: '2024-08-05T17:25:59.233Z'
+                updatedAt: '2024-08-05T17:25:59.233Z'
+  /api/transactions/fund-wallet:
+    get:
+      tags:
+        - Payment
+      summary: Fund Account
+      responses:
+        '201':
+          description: Created
+          headers:
+            Content-Length:
+              schema:
+                type: integer
+                example: '427'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:38:48 GMT
+            Etag:
+              schema:
+                type: string
+                example: W/"1ab-0ggDBGetRThEAiecGPHrrbnY47M"
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                authorizationUrl: https://checkout.paystack.com/58cr08yjidt3xny
+                transactionRespDetails:
+                  id: clzfujpny0001f7ha7gav3j29
+                  description: Wallet funding of 50000
+                  amount: '50000'
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  transactionType: FUNDWALLET
+                  transactionStatus: PENDING
+                  walletId: clzfu6ub300014kvmiulwg2t6
+                  referenceId: y9keh62yzq
+                  createdAt: '2024-08-04T17:38:48.622Z'
+                  updatedAt: '2024-08-04T17:38:48.622Z'
+  /paystack/webhook:
+    post:
+      tags:
+        - Payment
+      summary: Verify Funded amount
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/application/{propertiesId}:
+    post:
+      tags:
+        - application
+      summary: startapp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Mr.
+                firstName: Wrashy
+                middleName: A.
+                lastName: Andrew
+                dob: '1985-08-15T00:00:00Z'
+                email: johndoe@example.com
+                phoneNumber: '+1234567890'
+                maritalStatus: Single
+                nextOfKin:
+                  firstName: Jane
+                  lastName: Doe
+                  relationship: Sister
+                  email: janedoe@example.com
+                  phoneNumber: '+0987654321'
+      parameters:
+        - name: propertiesId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzfnu0np00013uy80szvz6gj
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '557'
+            ETag:
+              schema:
+                type: string
+                example: W/"22d-b6MpnJx7eGGzrwOb2LcXRRqIo1k"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:07:34 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                guarantor:
+                  id: clzftfjit0003bmvqlfumdrje
+                  title: Mr.
+                  firstName: Wrashy
+                  middleName: A.
+                  lastName: Andrew
+                  dob: '1985-08-15T00:00:00.000Z'
+                  email: johndoe@example.com
+                  phoneNumber: '+1234567890'
+                  maritalStatus: Single
+                  nextOfKin:
+                    - id: clzftfjid0002bmvqzs81kt1w
+                      lastName: Doe
+                      relationship: Sister
+                      email: janedoe@example.com
+                      firstName: Jane
+                      phoneNumber: '+0987654321'
+                      createdAt: '2024-08-04T17:07:34.405Z'
+                      updatedAt: '2024-08-04T17:07:34.422Z'
+                      middleName: null
+                      applicantPersonalDetailsId: clzftfjit0003bmvqlfumdrje
+  /api/application/guarantor/{applicationId}:
+    post:
+      tags:
+        - application
+      summary: gurantor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullName: John Doe
+                phoneNumber: '+1234567890'
+                email: johndoe@example.com
+                address: 123 Main St, Springfield, Abuja
+      parameters:
+        - name: applicationId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzftfjj30005bmvqk5a4lazy
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '555'
+            ETag:
+              schema:
+                type: string
+                example: W/"22b-EpJyzxQNX9weS3cceQ6piKT4MvM"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:09:54 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                guarantor:
+                  id: clzftfjj30005bmvqk5a4lazy
+                  fullName: John Doe
+                  phoneNumber: '+1234567890'
+                  email: johndoe@example.com
+                  address: 123 Main St, Springfield, Abuja
+                  status: PENDING
+                  isDeleted: false
+                  createdAt: '2024-08-04T17:07:34.432Z'
+                  updatedAt: '2024-08-04T17:09:54.429Z'
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  residentialId: null
+                  emergencyContactId: null
+                  employmentInformationId: null
+                  propertiesId: clzfnu0np00013uy80szvz6gj
+                  applicantPersonalDetailsId: clzftfjit0003bmvqlfumdrje
+                  guarantorInformationId: clzftijji0006bmvqne17jyvq
+  /api/application/emergency-contact/{applicationId}:
+    post:
+      tags:
+        - application
+      summary: emergency
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullname: Wrashy Green
+                phoneNumber: '+1234567890'
+                email: wrashy@example.com
+                address: 123 Main Street, Anytown, Nigeria
+      parameters:
+        - name: applicationId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzftfjj30005bmvqk5a4lazy
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '590'
+            ETag:
+              schema:
+                type: string
+                example: W/"24e-12m2LZhg9wzgcoEph7TQdcc5hlQ"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:12:54 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                emergencyContact:
+                  id: clzftfjj30005bmvqk5a4lazy
+                  fullname: Wrashy Green
+                  phoneNumber: '+1234567890'
+                  email: wrashy@example.com
+                  address: 123 Main Street, Anytown, Nigeria
+                  status: PENDING
+                  isDeleted: false
+                  createdAt: '2024-08-04T17:07:34.432Z'
+                  updatedAt: '2024-08-04T17:12:54.145Z'
+                  userId: clzfmgxtz0000iflxze4ib56n
+                  residentialId: null
+                  emergencyContactId: clzftme7q0007bmvq1w7kbk0z
+                  employmentInformationId: null
+                  propertiesId: clzfnu0np00013uy80szvz6gj
+                  applicantPersonalDetailsId: clzftfjit0003bmvqlfumdrje
+                  guarantorInformationId: clzftijji0006bmvqne17jyvq
+  /api/application/employer-info/clyxgzf8i0003mg4iwx82bpbc:
+    post:
+      tags:
+        - application
+      summary: employmentInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                employmentStatus: Employed
+                taxCredit: '3000'
+                childBenefit: '4000'
+                childMaintenance: '2000'
+                disabilityBenefit: '13000'
+                housingBenefit: '2000'
+                others: Freelance work
+                pension: '12000'
+                moreDetails: Works part-time as a consultant
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/application/residential-info/clyxgzf8i0003mg4iwx82bpbc:
+    post:
+      tags:
+        - application
+      summary: residential-info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                address: 123 Main Street, Anytown, USA
+                addressStatus: Owned
+                lengthOfResidence: 2 years
+                landlordOrAgencyPhoneNumber: 123-456-7890
+                landlordOrAgencyEmail: landlord@example.com
+                landlordOrAgencyName: ABC Property Management
+                prevAddresses:
+                  - address: 456 Elm Street, Anytown, USA
+                    lengthOfResidence: 1 year
+                  - address: 789 Oak Street, Anytown, USA
+                    lengthOfResidence: 6 months
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/application/document/clyxgzf8i0003mg4iwx82bpbc:
+    post:
+      tags:
+        - application
+      summary: document-upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                documentName:
+                  type: string
+                  example: passport
+                files:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/application/complete/clyxgzf8i0003mg4iwx82bpbc:
+    post:
+      tags:
+        - application
+      summary: complete
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/status:
+    post:
+      tags:
+        - status
+      summary: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: pending
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - status
+      summary: get
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/status/clyse41tl0000zizc1azqo3kx:
+    delete:
+      tags:
+        - category
+      summary: delete
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    patch:
+      tags:
+        - category
+      summary: update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: unassigned
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/properties/property:
+    post:
+      tags:
+        - property
+      summary: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Calorei Apartments
+                description: Valley at greeen door.
+                propertysize: 5000
+                landlordId: '1'
+                yearBuilt: '2020-05-20T00:00:00.000Z'
+                city: New York
+                state: NY
+                country: USA
+                zipcode: '10001'
+                location: 123 Main St, New York, NY 10001
+                images:
+                  - https://example.com/image1.jpg
+                  - https://example.com/image2.jpg
+                videourl:
+                  - https://example.com/video1.mp4
+                  - https://example.com/video2.mp4
+                amenities:
+                  - Swimming Pool
+                  - Gym
+                  - Parking
+                totalApartments: 20
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '583'
+            ETag:
+              schema:
+                type: string
+                example: W/"247-48r5Jx4W8/1qSzqqeTcGW5DNogI"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 14:30:52 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clzfnu0np00013uy80szvz6gj
+                name: Calorei Apartments
+                description: Valley at greeen door.
+                propertysize: 5000
+                isDeleted: false
+                landlordId: '1'
+                agencyId: null
+                yearBuilt: '2020-05-20T00:00:00.000Z'
+                createdAt: '2024-08-04T14:30:52.118Z'
+                city: New York
+                state: NY
+                country: USA
+                zipcode: '10001'
+                location: 123 Main St, New York, NY 10001
+                images:
+                  - https://example.com/image1.jpg
+                  - https://example.com/image2.jpg
+                videourl:
+                  - https://example.com/video1.mp4
+                  - https://example.com/video2.mp4
+                amenities:
+                  - Swimming Pool
+                  - Gym
+                  - Parking
+                totalApartments: 20
+  /api/categories:
+    post:
+      tags:
+        - category
+      summary: create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: electricity
+                labels:
+                  type: string
+                  example: sockets
+                files:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - category
+      summary: get
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/categories/sub/clyw2uceq0000ys62u5n0bsvn:
+    post:
+      tags:
+        - category
+      summary: sub_category
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: leakage
+                labels:
+                  type: string
+                  example: pliers
+                files:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/categories/sub:
+    get:
+      tags:
+        - category
+      summary: get_subcategory
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/categories/sub/clysffhoy0001w3190ywm99lh:
+    get:
+      tags:
+        - category
+      summary: get_subcategory_id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/categories/clyseztm90000kff9uozu0vj8:
+    get:
+      tags:
+        - category
+      summary: get_byid
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/properties/apartments/{propertyId}:
+    post:
+      tags:
+        - apartment
+      summary: create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                  example: A101
+                description:
+                  type: string
+                  example: A spacious 2-bedroom apartment
+                sittingRoom:
+                  type: integer
+                  example: '1'
+                waitingRoom:
+                  type: integer
+                  example: '1'
+                bedrooms:
+                  type: integer
+                  example: '2'
+                kitchen:
+                  type: integer
+                  example: '1'
+                bathrooms:
+                  type: integer
+                  example: '2'
+                garages:
+                  type: integer
+                  example: '1'
+                offices:
+                  type: integer
+                  example: '0'
+                rentalAmount:
+                  type: number
+                  example: '1200.00'
+                facilities:
+                  type: string
+                  example: Gym
+                files:
+                  type: string
+                  format: binary
+      parameters:
+        - name: propertyId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzfnu0np00013uy80szvz6gj
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '978'
+            ETag:
+              schema:
+                type: string
+                example: W/"3d2-RKHk156iqzmaUeEkpWqr/YxmC6A"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:05:48 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: clzftd9gw0001bmvqa3cjl0tm
+                code: A101
+                description: A spacious 2-bedroom apartment
+                sittingRoom: 1
+                waitingRoom: 1
+                bedrooms: 2
+                kitchen: 1
+                bathrooms: 2
+                garages: 1
+                floorplans: []
+                facilities:
+                  - Swimming Pool
+                  - Gym
+                offices: 0
+                isVacant: true
+                isDeleted: false
+                rentalAmount: '1200'
+                images: []
+                videourl: []
+                propertyId: clzfnu0np00013uy80szvz6gj
+                tenantsId: null
+                property:
+                  id: clzfnu0np00013uy80szvz6gj
+                  name: Calorei Apartments
+                  description: Valley at greeen door.
+                  propertysize: 5000
+                  isDeleted: false
+                  landlordId: '1'
+                  agencyId: null
+                  yearBuilt: '2020-05-20T00:00:00.000Z'
+                  createdAt: '2024-08-04T14:30:52.118Z'
+                  city: New York
+                  state: NY
+                  country: USA
+                  zipcode: '10001'
+                  location: 123 Main St, New York, NY 10001
+                  images:
+                    - https://example.com/image1.jpg
+                    - https://example.com/image2.jpg
+                  videourl:
+                    - https://example.com/video1.mp4
+                    - https://example.com/video2.mp4
+                  amenities:
+                    - Swimming Pool
+                    - Gym
+                    - Parking
+                  totalApartments: 20
+  /api/maintenance:
+    post:
+      tags:
+        - maintenance
+      summary: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                offer:
+                  - '100'
+                propertyId: clyxgjgyx0001nuzg0s2blhx4
+                description: pipe breaks
+                apartmentId: clyxgodw70003nuzgt3pkeojg
+                categoryId: clyw2uceq0000ys62u5n0bsvn
+                subcategoryIds:
+                  - clyxfz1bl0004ys62qtz3ge81
+                serviceId: clyxih1sj0001qibhj16hdg9q
+                scheduleDate: '2024-08-15T00:00:00Z'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/services:
+    post:
+      tags:
+        - services
+      summary: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                currentJobs: 5
+                availability: 'YES'
+                standardPriceRange: 100-200
+                mediumPriceRange: 200-300
+                premiumPriceRange: 300-400
+                categoryId: clyw2uceq0000ys62u5n0bsvn
+                subcategoryId: clyxfz1bl0004ys62qtz3ge81
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - services
+      summary: gettter
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/services/offer/clyseztm90000kff9uozu0vj8:
+    post:
+      tags:
+        - services
+      summary: search_skils
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                plan:
+                  type: string
+                  example: standard
+                subcategoryIds:
+                  type: string
+                  example: clysffhoy0001w3190ywm99lh
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/maintenance/accept/clyyya2ej0001xramal13hcxz:
+    post:
+      tags:
+        - services
+      summary: accept_offer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                plan:
+                  type: string
+                  example: standard
+                subcategoryIds:
+                  type: string
+                  example: clysffhoy0001w3190ywm99lh
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/maintenance/completed/clyyya2ej0001xramal13hcxz:
+    post:
+      tags:
+        - services
+      summary: accept_completed
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/profile/{profileId}:
+    patch:
+      tags:
+        - Profile
+      summary: profile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                gender:
+                  type: string
+                  example: Male
+                address:
+                  type: string
+                  example: block N30 Jakande Isolo
+                phoneNumber:
+                  type: integer
+                  example: '12345671980'
+                dateOfBirth:
+                  type: string
+                  example: '2000-03-18'
+                fullname:
+                  type: string
+                  example: Winnie ToolTip Jang
+                files:
+                  type: string
+                  format: binary
+      parameters:
+        - name: profileId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzfmgxu00001iflxvxkfnc9b
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '611'
+            ETag:
+              schema:
+                type: string
+                example: W/"263-WN6aL41JheVDpzPhLemGQEn4848"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 14:07:21 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Profile updated successfully
+                user:
+                  gender: Male
+                  phoneNumber: '12345671980'
+                  address: block N30 Jakande Isolo
+                  dateOfBirth: '2000-03-18T00:00:00.000Z'
+                  fullname: Winnie ToolTip Jang
+                  profileUrl: >-
+                    https://res.cloudinary.com/carter827/image/upload/v1722780439/kh8t1afb0hp6smyifjyy.webp
+                  users:
+                    - id: clzfmgxtz0000iflxze4ib56n
+                      email: admin123@gmail.com
+                      password: >-
+                        $2b$10$iYj5Gb33dgUczj2oT6FRy.3/3wY40PnTpR3LSaW9zNRU5vYRmNlYK
+                      isVerified: true
+                      createdAt: '2024-08-04T13:52:42.311Z'
+                      updatedAt: '2024-08-04T13:53:53.508Z'
+                      role:
+                        - WEBUSER
+                      profileId: clzfmgxu00001iflxvxkfnc9b
+  /api/profile:
+    post:
+      tags:
+        - Profile
+      summary: profile_create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                gender:
+                  type: string
+                  example: Male
+                address:
+                  type: string
+                  example: block N30 Jakande Isolo
+                phoneNumber:
+                  type: integer
+                  example: '3498760911'
+                dateOfBirth:
+                  type: string
+                  example: '2000-03-18'
+                fullname:
+                  type: string
+                  example: Winnie Tool Tip Jang
+                files:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/transactions/verify/{referenceId}:
+    patch:
+      tags:
+        - Wallet
+      summary: Verify Paystack Payment
+      requestBody:
+        content: {}
+      parameters:
+        - name: referenceId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: y9keh62yzq
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1452'
+            ETag:
+              schema:
+                type: string
+                example: W/"5ac-48lTVZ9x30aeBd9JdFSbC7aDS4A"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 19:23:25 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Payment successful
+                transaction:
+                  id: 4045711910
+                  domain: test
+                  status: success
+                  reference: y9keh62yzq
+                  receipt_number: null
+                  amount: 50000
+                  message: null
+                  gateway_response: Successful
+                  paid_at: '2024-08-04T17:39:10.000Z'
+                  created_at: '2024-08-04T17:38:47.000Z'
+                  channel: card
+                  currency: NGN
+                  ip_address: 102.215.57.208
+                  metadata: ''
+                  log:
+                    start_time: 1722793148
+                    time_spent: 4
+                    attempts: 1
+                    errors: 0
+                    success: true
+                    mobile: false
+                    input: []
+                    history:
+                      - type: action
+                        message: Attempted to pay with card
+                        time: 3
+                      - type: success
+                        message: Successfully paid with card
+                        time: 4
+                  fees: 750
+                  fees_split: null
+                  authorization:
+                    authorization_code: AUTH_xayjmfjfms
+                    bin: '408408'
+                    last4: '4081'
+                    exp_month: '12'
+                    exp_year: '2030'
+                    channel: card
+                    card_type: 'visa '
+                    bank: TEST BANK
+                    country_code: NG
+                    brand: visa
+                    reusable: true
+                    signature: SIG_2PErmvrbKXw1RAAZxJdw
+                    account_name: null
+                  customer:
+                    id: 176486028
+                    first_name: null
+                    last_name: null
+                    email: admin123@gmail.com
+                    customer_code: CUS_b3mm9agqpizy0k9
+                    phone: null
+                    metadata: null
+                    risk_action: default
+                    international_format_phone: null
+                  plan: null
+                  split: {}
+                  order_id: null
+                  paidAt: '2024-08-04T17:39:10.000Z'
+                  createdAt: '2024-08-04T17:38:47.000Z'
+                  requested_amount: 50000
+                  pos_transaction_data: null
+                  source: null
+                  fees_breakdown: null
+                  connect: null
+                  transaction_date: '2024-08-04T17:38:47.000Z'
+                  plan_object: {}
+                  subaccount: {}
+  /api/wallet/{userId}:
+    get:
+      tags:
+        - Wallet
+      summary: Get Wallet
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: clzfmgxtz0000iflxze4ib56n
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '163'
+            ETag:
+              schema:
+                type: string
+                example: W/"a3-ZwEMJ35Pohqf3tIjw4inGNAY/G0"
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Aug 2024 17:28:48 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Get Wallet Zero Balance
+                  value:
+                    id: clzfu6ub300014kvmiulwg2t6
+                    userId: clzfmgxtz0000iflxze4ib56n
+                    balance: '0'
+                    createdAt: '2024-08-04T17:28:48.111Z'
+                    updatedAt: '2024-08-04T17:28:48.111Z'
+                example-1:
+                  summary: Get Wallet With Balance
+                  value:
+                    id: clzfu6ub300014kvmiulwg2t6
+                    userId: clzfmgxtz0000iflxze4ib56n
+                    balance: '5000000'
+                    createdAt: '2024-08-04T17:28:48.111Z'
+                    updatedAt: '2024-08-04T17:47:56.313Z'
