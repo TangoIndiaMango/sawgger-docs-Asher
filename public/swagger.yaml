@@ -103,6 +103,7 @@ tags:
   - name: Tenants > Community
   - name: Tenants > ADS
   - name: Tenants > Support
+  - name: Tenants > Dashboard
   - name: Payment
   - name: Payment > Transactions
   - name: application
@@ -2796,6 +2797,322 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /api/tenant/dashboard/:
+    get:
+      tags:
+        - Tenants > Dashboard
+      summary: Get tenant dashboard
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '4185'
+            ETag:
+              schema:
+                type: string
+                example: W/"1059-ytIPACg66h6g4Xi5nP9tvZ/ArWY"
+            Date:
+              schema:
+                type: string
+                example: Thu, 08 Aug 2024 18:35:01 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Get tenant dashboard
+                  value:
+                    userCreditScore: null
+                    propertyPaymentDetails: []
+                    transactionDetails:
+                      - id: clzh9j2o90002g78immdf43x0
+                        description: >-
+                          Here's a few thousands for your estimated work flow
+                          sir
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722878759234-3864ff54
+                        createdAt: '2024-08-05T17:25:59.233Z'
+                        updatedAt: '2024-08-05T17:25:59.233Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzh6gyos000b145nao3slw6d
+                        description: Making payment for Ads
+                        amount: '10000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722873621863-74b50dbe
+                        createdAt: '2024-08-05T16:00:21.875Z'
+                        updatedAt: '2024-08-05T16:00:21.875Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1w0kc0002dzz1jolyylql
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722805459888-ce6dbda7
+                        createdAt: '2024-08-04T21:04:19.890Z'
+                        updatedAt: '2024-08-04T21:04:19.890Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1jfja0002xy0ho73sd7ve
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804872601-87e18c9c
+                        createdAt: '2024-08-04T20:54:32.604Z'
+                        updatedAt: '2024-08-04T20:54:32.604Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1b4st0002g9dc1lzwg4t7
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804485587-5461b5fd
+                        createdAt: '2024-08-04T20:48:05.588Z'
+                        updatedAt: '2024-08-04T20:48:05.588Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg16r620002uabxur5zp4rb
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804281311-802da86f
+                        createdAt: '2024-08-04T20:44:41.313Z'
+                        updatedAt: '2024-08-04T20:44:41.313Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfw82c60004t4fxbon5qj3b
+                        description: >-
+                          Here's a few thousands for your estimated work flow
+                          sir
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722795944405-a6fc1ec9
+                        createdAt: '2024-08-04T18:25:44.396Z'
+                        updatedAt: '2024-08-04T18:25:44.396Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuv7pj0001bdimjwuvy9dc
+                        description: Wallet funding of 5000000
+                        amount: '5000000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: oo87nstwjr
+                        createdAt: '2024-08-04T17:47:45.223Z'
+                        updatedAt: '2024-08-04T17:47:56.303Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuplh000032f82feqqf91x
+                        description: Wallet funding of 5000000
+                        amount: '5000000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: PENDING
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: gd9d7xorli
+                        createdAt: '2024-08-04T17:43:23.124Z'
+                        updatedAt: '2024-08-04T17:43:23.124Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuo0n800012f822q3mzc2l
+                        description: Wallet funding of 50000
+                        amount: '50000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: PENDING
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: am96t1jhow
+                        createdAt: '2024-08-04T17:42:09.476Z'
+                        updatedAt: '2024-08-04T17:42:09.476Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                    rentStatus:
+                      isOverdue: false
+                      daysUntilDue: 0
+                      daysOverDue: 0
+                      minDuePayments: 0
+                    totalDueBills: '0'
+                    totalDuePayments: '0'
+                example-1:
+                  summary: Get tenant dashboard
+                  value:
+                    userCreditScore: 287
+                    propertyPaymentDetails: []
+                    transactionDetails:
+                      - id: clzh9j2o90002g78immdf43x0
+                        description: >-
+                          Here's a few thousands for your estimated work flow
+                          sir
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722878759234-3864ff54
+                        createdAt: '2024-08-05T17:25:59.233Z'
+                        updatedAt: '2024-08-05T17:25:59.233Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzh6gyos000b145nao3slw6d
+                        description: Making payment for Ads
+                        amount: '10000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722873621863-74b50dbe
+                        createdAt: '2024-08-05T16:00:21.875Z'
+                        updatedAt: '2024-08-05T16:00:21.875Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1w0kc0002dzz1jolyylql
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722805459888-ce6dbda7
+                        createdAt: '2024-08-04T21:04:19.890Z'
+                        updatedAt: '2024-08-04T21:04:19.890Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1jfja0002xy0ho73sd7ve
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804872601-87e18c9c
+                        createdAt: '2024-08-04T20:54:32.604Z'
+                        updatedAt: '2024-08-04T20:54:32.604Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg1b4st0002g9dc1lzwg4t7
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804485587-5461b5fd
+                        createdAt: '2024-08-04T20:48:05.588Z'
+                        updatedAt: '2024-08-04T20:48:05.588Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzg16r620002uabxur5zp4rb
+                        description: Making payment for Ads
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722804281311-802da86f
+                        createdAt: '2024-08-04T20:44:41.313Z'
+                        updatedAt: '2024-08-04T20:44:41.313Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfw82c60004t4fxbon5qj3b
+                        description: >-
+                          Here's a few thousands for your estimated work flow
+                          sir
+                        amount: '15000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: MAKEPAYMENT
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: REF-1722795944405-a6fc1ec9
+                        createdAt: '2024-08-04T18:25:44.396Z'
+                        updatedAt: '2024-08-04T18:25:44.396Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuv7pj0001bdimjwuvy9dc
+                        description: Wallet funding of 5000000
+                        amount: '5000000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: COMPLETED
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: oo87nstwjr
+                        createdAt: '2024-08-04T17:47:45.223Z'
+                        updatedAt: '2024-08-04T17:47:56.303Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuplh000032f82feqqf91x
+                        description: Wallet funding of 5000000
+                        amount: '5000000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: PENDING
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: gd9d7xorli
+                        createdAt: '2024-08-04T17:43:23.124Z'
+                        updatedAt: '2024-08-04T17:43:23.124Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                      - id: clzfuo0n800012f822q3mzc2l
+                        description: Wallet funding of 50000
+                        amount: '50000'
+                        userId: clzfmgxtz0000iflxze4ib56n
+                        transactionType: FUNDWALLET
+                        transactionStatus: PENDING
+                        walletId: clzfu6ub300014kvmiulwg2t6
+                        referenceId: am96t1jhow
+                        createdAt: '2024-08-04T17:42:09.476Z'
+                        updatedAt: '2024-08-04T17:42:09.476Z'
+                        wallet:
+                          id: clzfu6ub300014kvmiulwg2t6
+                    rentStatus:
+                      isOverdue: false
+                      daysUntilDue: 0
+                      daysOverDue: 0
+                      minDuePayments: 0
+                    totalDueBills: '0'
+                    totalDuePayments: '0'
   /api/transactions/transfer:
     post:
       tags:
